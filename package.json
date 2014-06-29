@@ -1,0 +1,29 @@
+{
+  "name": "lrucache",
+  "description": "LRU Cache in node/browser.",
+  "author": {
+    "name": "zensh"
+  },
+  "version": "0.1.0",
+  "main": "lrucache.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:zensh/lrucache.git"
+  },
+  "homepage": "https://github.com/zensh/lrucache",
+  "keywords": [
+    "lru",
+    "cache",
+    "lru-cache",
+    "lrucache"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "~0.7.2",
+    "grunt-contrib-nodeunit": "~0.2.2"
+  },
+  "scripts": {
+    "test": "grunt test"
+  }
+}
