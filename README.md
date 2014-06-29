@@ -1,4 +1,4 @@
-LRUCache v0.1.0
+LRUCache v0.1.1 [![Build Status](https://travis-ci.org/zensh/lrucache.png?branch=master)](https://travis-ci.org/zensh/lrucache)
 ====
 LRU Cache in node/browser.
 
