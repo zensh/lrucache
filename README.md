@@ -1,7 +1,8 @@
-LRUCache v0.1.1 [![Build Status](https://travis-ci.org/zensh/lrucache.png?branch=master)](https://travis-ci.org/zensh/lrucache)
+LRUCache v0.2.0 [![Build Status](https://travis-ci.org/zensh/lrucache.png?branch=master)](https://travis-ci.org/zensh/lrucache)
 ====
-LRU Cache in node/browser.
+LRU Cache for node.js/browser.
 
+使用链表实现的 LRU 缓存。`get`、`set` 和 `update` 方法会更新 LRU 优先级。
 
 ## Install
 
@@ -27,42 +28,89 @@ LRU Cache in node/browser.
 
 + **capacity:** Number，可选，设置 LRUCache 的容量，未设置则为无限容量。
 
-    var cache = LRUCache(100);
-
+```js
+var cache = LRUCache(100);
+```
 
 ### LRUCache.prototype.get(key)
 
-    var a = cache.get('a');
+return `value`;
+
+```js
+var a = cache.get('a');
+```
 
 ### LRUCache.prototype.set(key, value)
 
-    cache.set('a', [1, 2, 3]);
+return `this`;
+
+```js
+cache.set('a', [1, 2, 3]);
+```
 
 ### LRUCache.prototype.update(key, fn)
 
-如果缓存 `a` 不存在，则不会执行。
+return `this`，如果缓存 `a` 不存在，则不会执行。
 
-    cache.update('a', function (a) {
-      a.push(4);
-      return a;
-    });
+```js
+cache.update('a', function (a) {
+  a.push(4);
+  return a;
+});
+```
 
 ### LRUCache.prototype.remove(key)
 
-    cache.remove('a');
+return `this`;
+
+```js
+cache.remove('a');
+```
 
 ### LRUCache.prototype.removeAll(key)
 
-    cache.removeAll();
+return `this`;
+
+```js
+cache.removeAll();
+```
 
 ### LRUCache.prototype.keys()
 
-    cache.keys();
+return a array of `keys`;
+
+```
+cache.keys();
+```
 
 ### LRUCache.prototype.has(key)
 
-    cache.has('a');
+return `true` or `false`;
+
+```js
+cache.has('a');
+```
+
+### LRUCache.prototype.staleKey()
+
+return the stalest `key` or `null`;
+
+```js
+vat staleKey = cache.staleKey();
+```
+
+### LRUCache.prototype.popStale()
+
+return the stalest `data` or `null`;
+
+```js
+var staleDate = cache.popStale();
+```
 
 ### LRUCache.prototype.info()
 
-    cache.info();
+return `info`;
+
+```js
+cache.info();
+```

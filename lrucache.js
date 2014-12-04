@@ -1,10 +1,8 @@
-// lrucache v0.1.1
-//
 // **Github:** https://github.com/zensh/lrucache
 //
 // **License:** MIT
 
-/* global module, define, Buffer */
+/* global module, define */
 ;(function (root, factory) {
   'use strict';
 
@@ -15,13 +13,109 @@
   } else {
     root.LRUCache = factory();
   }
-}(this, function () {
+}(typeof window === 'object' ? window : this, function () {
   'use strict';
 
-  var buffer = typeof Buffer === 'function' ? function (value) {
-    return new Buffer(JSON.stringify(value));
-  } : function (value) {
-    return JSON.stringify(value);
+  function CacheState(capacity) {
+    this.capacity = capacity > 0 ? +capacity : Number.MAX_VALUE;
+    this.data = Object.create ? Object.create(null) : {};
+    this.hash = Object.create ? Object.create(null) : {};
+    this.linkedList = {
+      length: 0,
+      head: null,
+      end: null
+    };
+  }
+
+  function LRUCache(capacity) {
+    if (!(this instanceof LRUCache)) return new LRUCache(capacity);
+    this._LRUCacheState = new CacheState(capacity);
+  }
+
+  var proto = LRUCache.prototype;
+
+  proto.get = function (key) {
+    var state = this._LRUCacheState;
+    var lruEntry = state.hash[key];
+    if (!lruEntry) return;
+    refresh(state.linkedList, lruEntry);
+    return state.data[key];
+  };
+
+  proto.set = function (key, value) {
+    var state = this._LRUCacheState;
+    var lruEntry = state.hash[key];
+    if (value === undefined) return this;
+    if (!lruEntry) {
+      state.hash[key] = {key: key};
+      state.linkedList.length += 1;
+      lruEntry = state.hash[key];
+    }
+    refresh(state.linkedList, lruEntry);
+    state.data[key] = value;
+    if (state.linkedList.length > state.capacity) this.remove(state.linkedList.end.key);
+    return this;
+  };
+
+  proto.update = function (key, parseFn) {
+    var state = this._LRUCacheState;
+    if (this.has(key)) {
+      var data = this.get(key);
+      this.set(key, parseFn(data));
+    }
+    return this;
+  };
+
+  proto.remove = function (key) {
+    var state = this._LRUCacheState;
+    var lruEntry = state.hash[key];
+    if (!lruEntry) return this;
+    if (lruEntry === state.linkedList.head) state.linkedList.head = lruEntry.p;
+    if (lruEntry === state.linkedList.end) state.linkedList.end = lruEntry.n;
+    link(lruEntry.n, lruEntry.p);
+    delete state.hash[key];
+    delete state.data[key];
+    state.linkedList.length -= 1;
+    return this;
+  };
+
+  proto.removeAll = function () {
+    this._LRUCacheState = new CacheState(this._LRUCacheState.capacity);
+    return this;
+  };
+
+  proto.info = function () {
+    var state = this._LRUCacheState;
+    return {
+      capacity: state.capacity,
+      length: state.linkedList.length
+    };
+  };
+
+  proto.keys = function () {
+    var state = this._LRUCacheState;
+    var keys = [], lruEntry = state.linkedList.head;
+    while (lruEntry) {
+      keys.push(lruEntry.key);
+      lruEntry = lruEntry.p;
+    }
+    return keys;
+  };
+
+  proto.has = function (key) {
+    return !!this._LRUCacheState.hash[key];
+  };
+
+  proto.staleKey = function () {
+    return this._LRUCacheState.linkedList.end && this._LRUCacheState.linkedList.end.key;
+  };
+
+  proto.popStale = function () {
+    var staleKey = this.staleKey();
+    if (!staleKey) return null;
+    var stale = [staleKey, this._LRUCacheState.data[staleKey]];
+    this.remove(staleKey);
+    return stale;
   };
 
   // 更新链表，把get或put方法操作的key提到链表head，即表示最新
@@ -46,85 +140,7 @@
     if (prevEntry) prevEntry.n = nextEntry;
   }
 
-  function LRUCache(capacity) {
-    if (!(this instanceof LRUCache)) return new LRUCache(capacity);
-    this.capacity = capacity > 0 ? capacity : Number.MAX_VALUE;
-    this.removeAll();
-  }
-
-  var prototype = LRUCache.prototype;
-
-  prototype.get = function (key) {
-    var lruEntry = this.hash[key];
-    if (!lruEntry) return;
-    refresh(this.linkedList, lruEntry);
-    return JSON.parse(this.data[key].toString());
-  };
-
-  prototype.set = function (key, value) {
-    var lruEntry = this.hash[key];
-    if (value === undefined) return this;
-    if (!lruEntry) {
-      this.hash[key] = {key: key};
-      this.linkedList.length += 1;
-      lruEntry = this.hash[key];
-    }
-    refresh(this.linkedList, lruEntry);
-    this.data[key] = buffer(value);
-    if (this.linkedList.length > this.capacity) this.remove(this.linkedList.end.key);
-    return this;
-  };
-
-  prototype.update = function (key, parse) {
-    if (this.has(key)) {
-      var data = this.get(key);
-      this.set(key, parse(data));
-    }
-    return this;
-  };
-
-  prototype.remove = function (key) {
-    var lruEntry = this.hash[key];
-    if (!lruEntry) return this;
-    if (lruEntry === this.linkedList.head) this.linkedList.head = lruEntry.p;
-    if (lruEntry === this.linkedList.end) this.linkedList.end = lruEntry.n;
-    link(lruEntry.n, lruEntry.p);
-    delete this.hash[key];
-    delete this.data[key];
-    this.linkedList.length -= 1;
-    return this;
-  };
-
-  prototype.removeAll = function () {
-    this.data = {};
-    this.hash = {};
-    this.linkedList = {
-      length: 0,
-      head: null,
-      end: null
-    };
-    return this;
-  };
-
-  prototype.info = function () {
-    return {
-      capacity: this.capacity,
-      length: this.linkedList.length
-    };
-  };
-
-  prototype.keys = function () {
-    var keys = [], lruEntry = this.linkedList.head;
-    while (lruEntry) {
-      keys.push(lruEntry.key);
-      lruEntry = lruEntry.p;
-    }
-    return keys;
-  };
-
-  prototype.has = function (key) {
-    return !!this.hash[key];
-  };
-
+  LRUCache.NAME = 'LRUCache';
+  LRUCache.VERSION = 'v0.2.0';
   return LRUCache;
 }));

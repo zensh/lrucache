@@ -1,10 +1,10 @@
 {
   "name": "lrucache",
-  "description": "LRU Cache in node/browser.",
-  "author": {
-    "name": "zensh"
-  },
-  "version": "0.1.1",
+  "description": "LRU Cache for node.js/browser.",
+  "author": [
+    "Yan Qing <admin@zensh.com>"
+  ],
+  "version": "0.2.0",
   "main": "lrucache.js",
   "repository": {
     "type": "git",
@@ -19,11 +19,21 @@
   ],
   "dependencies": {},
   "devDependencies": {
-    "grunt": "~0.4.1",
-    "grunt-contrib-jshint": "~0.7.2",
-    "grunt-contrib-nodeunit": "~0.2.2"
+    "gulp": ">=3.8.0",
+    "gulp-jshint": ">=1.8.4",
+    "gulp-mocha": ">=1.0.0",
+    "gulp-sequence": ">=0.3.1",
+    "mocha": ">=1.21.0",
+    "should": ">=4.0.4"
   },
   "scripts": {
-    "test": "grunt test"
-  }
+    "test": "gulp test"
+  },
+  "ignore": [
+    "**/.*",
+    "benchmark",
+    "test",
+    "gulpfile.js",
+    "bower.json"
+  ]
 }
