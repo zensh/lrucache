@@ -2,11 +2,10 @@
 /* global describe, it */
 
 var should = require('should')
-var LRUCache = require('../lrucache.js')
+var LRUCache = require('../index.js')
 var x = {a: 1, b: 2}
 
 describe('LRUCache', function () {
-
   it('LRUCache()', function () {
     var cache = LRUCache(100)
     should(cache.info().length).be.equal(0)

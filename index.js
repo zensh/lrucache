@@ -59,6 +59,7 @@
     if (!lruEntry) return this
     if (lruEntry === state.linkedList.head) state.linkedList.head = lruEntry.p
     if (lruEntry === state.linkedList.end) state.linkedList.end = lruEntry.n
+
     link(lruEntry.n, lruEntry.p)
     delete state.hash[key]
     delete state.data[key]
@@ -146,7 +147,5 @@
     if (prevEntry) prevEntry.n = nextEntry
   }
 
-  LRUCache.NAME = 'LRUCache'
-  LRUCache.VERSION = 'v0.3.0'
   return LRUCache
 }))
