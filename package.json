@@ -4,7 +4,7 @@
   "author": [
     "Yan Qing <admin@zensh.com>"
   ],
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -19,12 +19,12 @@
   ],
   "dependencies": {},
   "devDependencies": {
-    "mocha": "^2.2.5",
-    "should": "^7.0.4",
-    "standard": "^5.1.0"
+    "should": "^8.3.0",
+    "standard": "^6.0.8",
+    "tman": "^0.5.2"
   },
   "scripts": {
-    "test": "standard && mocha"
+    "test": "standard && tman"
   },
   "files": [
     "README.md",

@@ -2,7 +2,7 @@
   "name": "lrucache",
   "description": "LRU Cache for node.js/browser.",
   "main": "index.js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "homepage": "https://github.com/zensh/lrucache",
   "authors": [
     "Yan Qing <admin@zensh.com>"
@@ -16,6 +16,6 @@
   "license": "MIT",
   "ignore": [
     "**/.*",
-    "test",
+    "test"
   ]
 }
