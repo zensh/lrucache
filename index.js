@@ -107,7 +107,7 @@
   }
 
   function CacheState (capacity) {
-    this.capacity = capacity > 0 ? +capacity : Number.MAX_VALUE
+    this.capacity = capacity > 0 ? +capacity : (Number.MAX_SAFE_INTEGER || Number.MAX_VALUE)
     this.data = Object.create ? Object.create(null) : {}
     this.hash = Object.create ? Object.create(null) : {}
     this.linkedList = new LinkedList()

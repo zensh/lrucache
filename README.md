@@ -6,7 +6,7 @@ LRU Cache for node.js/browser.
 [![Build Status][travis-image]][travis-url]
 [![Downloads][downloads-image]][downloads-url]
 
-使用链表实现的 LRU 缓存。`get`、`set` 和 `update` 方法会更新 LRU 优先级。
+使用链表实现的 LRU 缓存。`get`、`set` 和 `update` 方法会更新 LRU 优先级
 
 ## Install
 
@@ -34,11 +34,9 @@ bower install lrucache
 var LRUCache = require('lrucache')
 ```
 
-### LRUCache([capacity])
+### Class LRUCache([capacity])
 
-`LRUCache` 构造函数。
-
-+ **capacity:** Number，可选，设置 LRUCache 的容量，未设置则为无限容量。
++ `capacity`: : *Optional*, Type: `Number`, Default: `Number.MAX_SAFE_INTEGER`.
 
 ```js
 var cache = LRUCache(100)
@@ -46,7 +44,7 @@ var cache = LRUCache(100)
 
 ### LRUCache.prototype.get(key)
 
-return `value`。
+Return `value`.
 
 ```js
 var a = cache.get('a')
@@ -54,7 +52,7 @@ var a = cache.get('a')
 
 ### LRUCache.prototype.set(key, value)
 
-return `this`。
+Return `this`.
 
 ```js
 cache.set('a', [1, 2, 3])
@@ -62,7 +60,7 @@ cache.set('a', [1, 2, 3])
 
 ### LRUCache.prototype.update(key, fn)
 
-return `this`，如果缓存 `a` 不存在，则不会执行。
+Return `this`, It only run when key exists.
 
 ```js
 cache.update('a', function (a) {
@@ -73,7 +71,7 @@ cache.update('a', function (a) {
 
 ### LRUCache.prototype.remove(key)
 
-return `this`。
+Return `this`.
 
 ```js
 cache.remove('a')
@@ -81,7 +79,7 @@ cache.remove('a')
 
 ### LRUCache.prototype.removeAll(key)
 
-return `this`。
+Return `this`.
 
 ```js
 cache.removeAll()
@@ -89,7 +87,7 @@ cache.removeAll()
 
 ### LRUCache.prototype.keys()
 
-return a array of `keys`。
+Return a array of `keys`.
 
 ```
 cache.keys()
@@ -97,7 +95,7 @@ cache.keys()
 
 ### LRUCache.prototype.has(key)
 
-return `true` or `false`。
+Return `true` or `false`.
 
 ```js
 cache.has('a')
@@ -105,15 +103,15 @@ cache.has('a')
 
 ### LRUCache.prototype.staleKey()
 
-return the stalest `key` or `null`。
+Return the stalest `key` or `null`.
 
 ```js
-vat staleKey = cache.staleKey()
+var staleKey = cache.staleKey()
 ```
 
 ### LRUCache.prototype.popStale()
 
-return the stalest `data` or `null`。
+Return the stalest `data` or `null`.
 
 ```js
 var staleDate = cache.popStale()
@@ -121,7 +119,7 @@ var staleDate = cache.popStale()
 
 ### LRUCache.prototype.info()
 
-return `info`。
+Return `info`.
 
 ```js
 cache.info()
