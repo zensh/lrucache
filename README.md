@@ -1,37 +1,37 @@
-LRUCache
-====
+# LRUCache
+
 LRU Cache for node.js/browser.
 
 [![NPM version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
 [![Downloads][downloads-image]][downloads-url]
 
-使用链表实现的 LRU 缓存。`get`、`set` 和 `update` 方法会更新 LRU 优先级
+使用链表实现的 LRU 缓存。`get`、`set` 和 `update` 方法会更新 LRU 优先级。
 
 ## Install
 
 **Node.js:**
 
-```
+```sh
 npm install lrucache
 ```
 
 **bower:**
 
-```
+```sh
 bower install lrucache
 ```
 
 **Browser:**
 
-```
+```html
 <script src="/pathTo/lrucache.js"></script>
 ```
 
 ## API
 
 ```js
-var LRUCache = require('lrucache')
+const LRUCache = require('lrucache')
 ```
 
 ### Class LRUCache([capacity])
@@ -39,7 +39,7 @@ var LRUCache = require('lrucache')
 + `capacity`: : *Optional*, Type: `Number`, Default: `Number.MAX_SAFE_INTEGER`.
 
 ```js
-var cache = LRUCache(100)
+const cache = LRUCache(100)
 ```
 
 ### LRUCache.prototype.get(key)
@@ -47,7 +47,7 @@ var cache = LRUCache(100)
 Return `value`.
 
 ```js
-var a = cache.get('a')
+let a = cache.get('a')
 ```
 
 ### LRUCache.prototype.set(key, value)
@@ -89,7 +89,7 @@ cache.removeAll()
 
 Return a array of `keys`.
 
-```
+```js
 cache.keys()
 ```
 
@@ -106,7 +106,7 @@ cache.has('a')
 Return the stalest `key` or `null`.
 
 ```js
-var staleKey = cache.staleKey()
+let staleKey = cache.staleKey()
 ```
 
 ### LRUCache.prototype.popStale()
@@ -114,7 +114,7 @@ var staleKey = cache.staleKey()
 Return the stalest `data` or `null`.
 
 ```js
-var staleDate = cache.popStale()
+let staleDate = cache.popStale()
 ```
 
 ### LRUCache.prototype.info()
